@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 public class VagaService {
 
 	@Autowired
-	private VagaRepository vr;
+	private VagaRepository repository;
 
 	@Autowired
 	private CandidatoRepository cr;
@@ -38,12 +38,12 @@ public class VagaService {
 	}
 	
 	public Vaga cadastrar(@RequestBody Vaga vaga) {
-		return vr.save(vaga);
+		return repository.save(vaga);
 	}
 
 	public java.util.List<Vaga> buscarPorNome(@PathVariable String nome) {
 		Vaga vagas=new Vaga();
-		java.util.List<Vaga> vg=vr.findByNome(nome);
+		java.util.List<Vaga> vg=repository.findByNome(nome);
 		java.util.List<Vaga> vag=new ArrayList<>();
 
 		for(Vaga vgv:vg) {
@@ -59,23 +59,23 @@ public class VagaService {
 	}
 
 	public Vaga detalhesVaga(@PathVariable("codigo") long codigo) {
-		Vaga vaga = vr.findByCodigo(codigo);
+		Vaga vaga = repository.findByCodigo(codigo);
 		Iterable<Candidato> canditados = cr.findByVaga(vaga);
 		return vaga;
 
 	}
 	public java.util.List<Vaga> listTodos() {
-		java.util.List<Vaga> vg=vr.findAll();
+		java.util.List<Vaga> vg=repository.findAll();
 		return vg;
 
 	}
 	public ResponseEntity<Vaga> delete(@PathVariable long codigo) {
-		vr.deleteById(codigo);
+		repository.deleteById(codigo);
 		return ResponseEntity.noContent().build();
 
 	}
 	public Vaga buscarPorId(@PathVariable long codigo) {
-		return vr.findByCodigo(codigo);
+		return repository.findByCodigo(codigo);
 
 	}
 }
